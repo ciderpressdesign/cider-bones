@@ -1,0 +1,23 @@
+{
+  "name": "cider-bones",
+  "description": "Setup for work on Boostrap Genesis Child Theme",
+  "main": "",
+  "authors": [
+    "Ben Eisner <ben@ciderpressdesign.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ciderpressdesign/cider-bones",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "susy": "~2.2.6",
+    "sass-breakpoints": "~1.0.0"
+  }
+}

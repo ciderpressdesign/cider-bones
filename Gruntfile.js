@@ -59,6 +59,13 @@ var build_state = 'dev',
         'js/custom/*.js',
     ];
 
+watched_img_files = [
+    "single/**/*.{png,jpg,gif,jpeg}",
+    "textures/**/*.{png,jpg,gif,jpeg}",
+    "svg/**/*.png"
+    ];
+
+
 module.exports = function(grunt) {
     "use strict";
 
@@ -77,7 +84,14 @@ module.exports = function(grunt) {
                 tasks: ["uglify:"+build_state],
                 options: {
                     livereload: true
+                },
+            libsass_image: {
+                files: watched_img_files,
+                tasks: ["libsass_image"],
+                options: {
+                    livereload:true
                 }
+            }
             }
         }, // watch
 
@@ -104,6 +118,7 @@ module.exports = function(grunt) {
                 }
             }
         }, // uglify
+
         sass: {
             // `grunt sass:dev`
             dev: {
@@ -150,7 +165,24 @@ module.exports = function(grunt) {
                 "path":    "~/www/",
                 "ssh_host": "user@site.com"
             }
-        } //deploy
+        }, //deploy
+
+        libsass_image: {
+            all: {
+                files:[{
+                    cwd:"img/",
+                    src: [
+                        "single/**/*.{png,jpg,gif,jpeg}",
+                        "textures/**/*.{png,jpg,gif,jpeg}",
+                        "svg/**/*.png"
+                    ],
+                    dest: "css/sass/maps/_imagemap.scss"
+                }],
+                options:{
+                    prefix: ""
+                }
+            }
+        } //libsass_image
     });
 
     // when `grunt` is run, do the following tasks
@@ -158,20 +190,24 @@ module.exports = function(grunt) {
     // (either prod or dev), start watch
     // (note: watch also uses build_state when generating output)
     grunt.registerTask('default', [build_state, 'watch']);
-    grunt.registerTask('wordpressdeploy', [ 'wordpressdeploy' ] );
 
 
     // when `grunt prod` is run, do the following tasks
     grunt.registerTask('prod', ['sass:prod', 'uglify:prod']);
 
     // when `grunt dev` is run, do the following tasks
-    grunt.registerTask('dev', ['sass:dev', 'uglify:dev']);
+    grunt.registerTask('dev', ['sass:dev', 'uglify:dev','libsass_image']);
+
+    //when grunt push_* or grunt pull_* is run
+    grunt.registerTask('wordpressdeploy', [ 'wordpressdeploy' ] );
+
 
     // load these tasks (necessary to allow use of sass, watch, and uglify
     grunt.loadNpmTasks("grunt-sass");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks('grunt-wordpress-deploy');
+    grunt.loadNpmTasks('grunt-libsass-image');
 
 };
 

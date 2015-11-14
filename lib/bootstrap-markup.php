@@ -19,15 +19,9 @@ function bsg_add_markup_class( $attr, $context ) {
     $classes_to_add = apply_filters ('bsg-classes-to-add',
         // default bootstrap markup values
         array(
-            'nav-primary'               => 'navbar navbar-default navbar-static-top',
-            'nav-secondary'             => 'navbar navbar-inverse navbar-static-top',
-            'site-header'               => 'container',
-            'site-inner'                => 'container',
-            'site-footer'               => 'container',
-            'content-sidebar-wrap'      => 'row',
-            'content'                   => 'col-sm-9',
-            'sidebar-primary'           => 'col-sm-3',
-            'archive-pagination'        => 'clearfix',
+            'nav-primary'               => 'navbar navbar-default',
+            'nav-secondary'             => 'navbar navbar-inverse',
+             'archive-pagination'        => 'clearfix',
             'entry-content'             => 'clearfix',
             'entry-pagination'          => 'clearfix bsg-pagination-numeric',
         ),

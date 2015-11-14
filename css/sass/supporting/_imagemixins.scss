@@ -1,0 +1,182 @@
+// Variables
+$img-url     : '../img/';
+$single-url  : '../img/single/';
+$texture-url : '../img/textures/';
+$svg-url     : '../img/svg/';
+
+
+// Internal Mixin: Get Image Dimension
+// Write the dimension off a Image in the CSS
+//
+// $width    [string] = The Width off the Image
+// $height   [string] = The Height off the Image
+// $option   [string] = both: height & width | width: width | height: height
+@mixin _getImageDimensions($width, $height, $option) {
+  @if $option == both {
+    width: $width;
+    height: $height; }
+  @else if $option == height {
+    height: $height; }
+  @else if $option == width {
+    width: $width; }
+}
+
+
+// Mixin: image-h
+// Including Single Images from the Single Directory as Background Image.
+//
+// $image      [string]  = Name off the Image
+// $dimensions [string]  = both: height & width | width: width | height: height
+// $pos        [string]  = The Image Position - can be 'false'
+// $retina     [boolean] = With set on 'true' the retina fallback will be included
+
+@function image-h($image){
+  $imageTarget: single-#{$image};
+
+  $imgFile  : null !default;
+  $imgWidth : null !default;
+  $imgHeight: null !default;
+  $imgName  : null !default;
+  $imgExt   : null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6); } }
+
+  @return $imgHeight;
+
+}
+
+// Mixin: Images
+// Including Single Images from the Single Directory as Background Image.
+//
+// $image      [string]  = Name off the Image
+// $dimensions [string]  = both: height & width | width: width | height: height
+// $pos        [string]  = The Image Position - can be 'false'
+// $retina     [boolean] = With set on 'true' the retina fallback will be included
+
+@mixin image($image, $dimensions: both, $pos: false, $retina: false) {
+  $imageTarget: single-#{$image};
+
+  $imgFile  : null !default;
+  $imgWidth : null !default;
+  $imgHeight: null !default;
+  $imgName  : null !default;
+  $imgExt   : null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6); } }
+
+  background-image: url('#{$single-url}#{$imgFile}');
+  background-repeat: no-repeat;
+  @if $pos != false { background-position: $pos; }
+
+  @include _getImageDimensions($imgWidth, $imgHeight, $dimensions);
+
+  @if $retina != false {
+    $imageRetinaTarget: single-#{$image}-2x;
+    $secondaryImage: #{$single-url}#{$imgName}-2x#{$imgExt};
+
+    .retina & {
+      background-image: url('#{$single-url}#{$imgName}-2x#{$imgExt}');
+      background-size: $imgWidth $imgHeight;
+    }
+  }
+}
+
+// Mixin: SVGPNG
+// Include the SVG Background Image with a PNG Fallback.
+//
+// $image      [string]  = Name off the Image - the SVG File must be in the Same directory
+// $dimensions [string]  = both: height & width | width: width | height: height
+// $pos        [string]  = The Image Position - can be 'false'
+@mixin svgpng($image, $dimensions: both, $pos: false) {
+  $imageTarget: svg-#{$image};
+
+  $imgFile  : null !default;
+  $imgWidth : null !default;
+  $imgHeight: null !default;
+  $imgName  : null !default;
+  $imgExt   : null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6);
+    }
+  }
+
+  background-image: url('#{$svg-url}#{$imgFile}');
+
+  @if $pos != false { background-position: $pos; }
+
+  background-repeat: no-repeat;
+
+  @include _getImageDimensions($imgWidth, $imgHeight, $dimensions);
+
+  .svg & {
+    $ext: '.svg';
+    backround-image: url('#{$svg-url}#{$imgName}#{$ext}');
+    background-size: $imgWidth $imgHeight;
+  }
+}
+
+
+// Mixin: Textures
+// Including Textures Images from the textures Directory as Background Image.
+//
+// $image      [string]  = Name off the Image
+// $repeat     [string]  = How the Image would be repeated. x : repeat-x | y : repeat-y
+// $pos        [string]  = The Image Position - can be 'false'
+// $retina     [boolean] = With set on 'true' the retina fallback will be included
+@mixin texture($image, $repeat: d, $pos: false, $retina: false) {
+  $imageTarget: textures-#{$image};
+
+  $imgFile  : null !default;
+  $imgWidth : null !default;
+  $imgHeight: null !default;
+  $imgName  : null !default;
+  $imgExt   : null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6); } }
+
+  background-image: url('#{$texture-url}#{$imgFile}');
+
+  @if $pos != false { background-position: $pos; }
+
+  @if $repeat == x {
+    background-repeat: repeat-x;
+    height: $imgHeight; }
+  @else if $repeat == y {
+    background-repeat: repeat-y;
+    width: $imgWidth; }
+
+  @if $retina != false {
+    .retina & {
+      background-image: url('#{$texture-url}#{$imgName}-2x#{$imgExt}');
+      background-size: $imgWidth $imgHeight;
+    }
+  }
+}

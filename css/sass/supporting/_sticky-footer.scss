@@ -6,7 +6,7 @@
 //
 // Footer must be a fixed height.
 
-@mixin sticky-footer($footer-height, $root-selector: unquote("#root"), $root-footer-selector: unquote("#root_footer"), $footer-selector: unquote("#footer")) {
+@mixin sticky-footer($footer-height, $root-selector: unquote(".site-container"), $root-footer-selector: unquote(".inner-footer"), $footer-selector: unquote(".site-footer")) {
   html, body {
     height: 100%; }
   #{$root-selector} {

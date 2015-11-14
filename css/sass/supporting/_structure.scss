@@ -6,16 +6,19 @@
 // .sidebar-content
 // .full-width-content
 
+
 .site-container {
+  @include container(12);
 }
 
 .site-header {
-
+  @include pad(1);
 }
 
 .site-inner {
-
+  @include pad(1);
 }
+
 .content-sidebar-wrap {
   @extend %clearfix;
 }
@@ -30,5 +33,8 @@
 }
 
 .site-footer {
-
+  @include image(cat);
+  @include pad(1);
 }
+
+@include sticky-footer(200px);

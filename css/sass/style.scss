@@ -2,6 +2,16 @@
 * Sass (http://sass-lang.com/) file to generate theme.css
 */
 
+
+/* Sticky Footer Mixin */
+@import 'supporting/sticky-footer';
+
+
+/* Lib Sass Image Mixins */
+@import "maps/imagemap";
+@import 'supporting/imagemixins';
+
+
 /* SUSY Grid System */
 
 @import "../../bower_components/susy/sass/susy";
@@ -64,8 +74,10 @@
 ------------------------------------------------------------ */
 @import "supporting/skip-to-main-content";
 
-/* Main Content Layout */
+/* Main Content Style */
 @import 'supporting/maincontent';
 
-/* Sticky Footer Mixin */
-@import 'supporting/sticky-footer';
+/* Main Content Layout */
+@import 'supporting/structure';
+
+

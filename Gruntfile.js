@@ -122,6 +122,35 @@ module.exports = function(grunt) {
                 },
             }
         }, // sass
+
+        wordpressdeploy: {
+            options: {
+                backup_dir: "backups/",
+                rsync_args: ['--verbose', '--progress', '-rlpt', '--compress', '--omit-dir-times',
+                    // '--dry-run'
+                ],
+                exclusions: ['Gruntfile.js', '.git/', 'tmp/*', 'backups/', 'wp-config.php', 'composer.json', 'composer.lock', 'README.md', '.gitignore', 'package.json', 'node_modules','.sass-cache']
+            },
+            local: {
+                "title": "local",
+                "database": "dbname",
+                "user":   "root",
+                "pass":   "",
+                "host":   "localhost",
+                "url":    "http://localhost/sitename",
+                "path":   "./"
+            },
+            staging: {
+                "title": "staging",
+                "database": "stagingdb",
+                "user":    "dbuser",
+                "pass":    "",
+                "host":    "localhost",
+                "url":     "http://thesite.net",
+                "path":    "~/www/",
+                "ssh_host": "user@site.com"
+            }
+        } //deploy
     });
 
     // when `grunt` is run, do the following tasks
@@ -129,6 +158,8 @@ module.exports = function(grunt) {
     // (either prod or dev), start watch
     // (note: watch also uses build_state when generating output)
     grunt.registerTask('default', [build_state, 'watch']);
+    grunt.registerTask('wordpressdeploy', [ 'wordpressdeploy' ] );
+
 
     // when `grunt prod` is run, do the following tasks
     grunt.registerTask('prod', ['sass:prod', 'uglify:prod']);
@@ -140,5 +171,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-sass");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks('grunt-wordpress-deploy');
+
 };
 

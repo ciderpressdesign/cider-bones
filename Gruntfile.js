@@ -95,6 +95,28 @@ module.exports = function(grunt) {
             }
         }, // watch
 
+        autoprefixer: {
+            options: {
+                cascade: true,
+                map: true
+            },
+            prod: {
+                files: {
+                    "build/css/style.min.css" : "css/style.min.css" ,
+                }
+            }
+        },
+
+        concat: {
+            dist: {
+                src: [
+                    'js/custom/**/*.js', // All JS in the libs folder
+                    'js/vendor/**/*.js'  // This specific file
+                ],
+                dest: 'js/javascript.js',
+            }
+        },
+
         uglify: {
             // `grunt uglify:dev`
             dev: {
@@ -168,21 +190,44 @@ module.exports = function(grunt) {
         }, //deploy
 
         libsass_image: {
-            all: {
+            prod: {
                 files:[{
-                    cwd:"img/",
+                    cwd: "build/",
                     src: [
-                        "single/**/*.{png,jpg,gif,jpeg}",
-                        "textures/**/*.{png,jpg,gif,jpeg}",
-                        "svg/**/*.png"
+                        "img/single/**/*.{png,jpg,gif,jpeg}",
+                        "img/textures/**/*.{png,jpg,gif,jpeg}",
+                        "img/svg/**/*.png"
+                    ],
+                    dest: 'css/maps/_imagemap.scss'
+                }],
+            },
+            dev: {
+                files:[{
+                    cwd:"",
+                    src: [
+                        "img/single/**/*.{png,jpg,gif,jpeg}",
+                        "img/textures/**/*.{png,jpg,gif,jpeg}",
+                        "img/svg/**/*.png"
                     ],
                     dest: "css/sass/maps/_imagemap.scss"
                 }],
-                options:{
-                    prefix: ""
-                }
             }
-        } //libsass_image
+        }, //libsass_image
+
+        imagemin: {
+            dynamic: {
+                files: [{
+                    expand: true,
+                    cwd: './img/',
+                    src: [
+                        "img/single/**/*.{png,jpg,gif,jpeg}",
+                        "img/textures/**/*.{png,jpg,gif,jpeg}",
+                        "img/svg/**/*.png"
+                    ],
+                    dest: 'build/img/'
+                }]
+            }
+        }
     });
 
     // when `grunt` is run, do the following tasks
@@ -193,10 +238,10 @@ module.exports = function(grunt) {
 
 
     // when `grunt prod` is run, do the following tasks
-    grunt.registerTask('prod', ['sass:prod', 'uglify:prod']);
+    grunt.registerTask('prod', ['imagemin','libsass_image:prod','sass:prod','concat', 'uglify:prod','autoprefixer' ]);
 
     // when `grunt dev` is run, do the following tasks
-    grunt.registerTask('dev', ['sass:dev', 'uglify:dev','libsass_image']);
+    grunt.registerTask('dev', ['libsass_image:dev','sass:dev','concat','uglify:dev']);
 
     //when grunt push_* or grunt pull_* is run
     grunt.registerTask('wordpressdeploy', [ 'wordpressdeploy' ] );
@@ -208,6 +253,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks('grunt-wordpress-deploy');
     grunt.loadNpmTasks('grunt-libsass-image');
+    grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 };
 

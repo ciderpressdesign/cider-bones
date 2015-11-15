@@ -22,22 +22,15 @@ $svg-url     : '../img/svg/';
 }
 
 
-// Mixin: image-h
+// Functions: image-h,image-w,image-u
 // Including Single Images from the Single Directory as Background Image.
 //
 // $image      [string]  = Name off the Image
-// $dimensions [string]  = both: height & width | width: width | height: height
-// $pos        [string]  = The Image Position - can be 'false'
-// $retina     [boolean] = With set on 'true' the retina fallback will be included
 
-@function image-h($image){
+
+@function image-w($image){
   $imageTarget: single-#{$image};
-
-  $imgFile  : null !default;
   $imgWidth : null !default;
-  $imgHeight: null !default;
-  $imgName  : null !default;
-  $imgExt   : null !default;
 
   // Get Image Information
   @each $id in $map-images {
@@ -48,9 +41,45 @@ $svg-url     : '../img/svg/';
       $imgName   : nth($id,5);
       $imgExt    : nth($id,6); } }
 
-  @return $imgHeight;
 
+  @return $imgWidth;
 }
+
+@function image-h($image){
+  $imageTarget: single-#{$image};
+  $imgHeight: null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6); } }
+
+
+  @return $imgHeight;
+}
+
+@function image-u($image){
+  $imageTarget: single-#{$image};
+  $imgFile  : null !default;
+
+  // Get Image Information
+  @each $id in $map-images {
+    @if nth($id,1) == $imageTarget {
+      $imgFile   : nth($id,2);
+      $imgWidth  : nth($id,3);
+      $imgHeight : nth($id,4);
+      $imgName   : nth($id,5);
+      $imgExt    : nth($id,6); } }
+
+  @return url(#{$single-url}#{$imgFile});
+}
+
+
+
 
 // Mixin: Images
 // Including Single Images from the Single Directory as Background Image.

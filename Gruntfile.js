@@ -57,12 +57,12 @@ var build_state = 'dev',
     watched_js_files = [
         'js/vendor/**/*.js',
         'js/custom/*.js',
-    ];
+    ],
 
-watched_img_files = [
-    "single/**/*.{png,jpg,gif,jpeg}",
-    "textures/**/*.{png,jpg,gif,jpeg}",
-    "svg/**/*.png"
+    watched_img_files = [
+        "img/single/**/*.{png,jpg,gif,jpeg}",
+        "img/textures/**/*.{png,jpg,gif,jpeg}",
+        "img/svg/**/*.png"
     ];
 
 
@@ -85,13 +85,13 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 },
+            },
             libsass_image: {
                 files: watched_img_files,
-                tasks: ["libsass_image"],
+                tasks: ['libsass_image'],
                 options: {
-                    livereload:true
+                    livereload:true,
                 }
-            }
             }
         }, // watch
 

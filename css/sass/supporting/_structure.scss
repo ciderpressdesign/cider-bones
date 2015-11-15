@@ -24,6 +24,7 @@
 }
 
 .content {
+
 }
 
 .sidebar-primary {
@@ -33,8 +34,9 @@
 }
 
 .site-footer {
-  @include image(cat);
+//  @include image(cat);
   @include pad(1);
+
 }
 
-@include sticky-footer(200px);
+@include sticky-footer(image-h(cat));
